@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Love Proposal 💖</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600&display=swap');
+
+        /* General Styles */
+        body {
+            font-family: 'Playfair Display', serif;
+            text-align: center;
+            background: white;
+            color: red;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .container {
+            display: none;
+            animation: fadeIn 1s ease-in-out;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .active {
+            display: block;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: red;
+            text-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        button {
+            margin: 10px;
+            padding: 15px 30px;
+            font-size: 1.2rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: 0.3s ease-in-out;
+        }
+
+        .yes, .forever {
+            background: red;
+            color: white;
+        }
+
+        .no {
+            background: white;
+            color: red;
+            border: 2px solid red;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: scale(0.9); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        /* Flying Hearts (Background Only) */
+        .heart {
+            position: absolute;
+            bottom: -10px;
+            font-size: 20px;
+            color: red;
+            animation: floatUp 4s linear infinite;
+            opacity: 0.3;
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(1); opacity: 0.3; }
+            100% { transform: translateY(-100vh) scale(2); opacity: 0; }
+        }
+
+        /* No Selection Pop-up */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            color: red;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            font-size: 1.2rem;
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body>
+
+    <!-- First Layer -->
+    <div class="container active" id="layer1">
+        <h1>Will you be my partner? 💖</h1>
+        <button class="yes" onclick="nextLayer(2)">Yes</button>
+        <button class="no" onclick="showPopup('No? Seriously? Rethink panna oru chance kudukuren! 😜')">No</button>
+    </div>
+
+    <!-- Second Layer -->
+    <div class="container" id="layer2">
+        <h1>Unmailayae kalyanam pananumnu nenakiriya? 💍</h1>
+        <button class="yes" onclick="nextLayer(3)">Yes</button>
+        <button class="no" onclick="showPopup('Ohh no! Unaku konjam yosikka time venum pola! 🤔')">No</button>
+    </div>
+
+    <!-- New Extra Layer -->
+    <div class="container" id="layer3">
+        <h1>Eppavum kooda irupiya? 💞</h1>
+        <button class="forever" onclick="nextLayer(4)">Forever</button>
+        <button class="no" onclick="showPopup('Ooo no! iruka matanu solatha ? 😢')">No</button>
+    </div>
+
+    <!-- Final Layer -->
+    <div class="container" id="layer4">
+        <h1>🎉 Congratulations! Now officially you are my partner! ❤️</h1>
+        <button class="yes" onclick="nextLayer(5)">Continue</button>
+    </div>
+
+    <!-- Extra Custom Layer -->
+    <div class="container" id="layer5">
+        <h1>💌 You can also send a message to Aathi 🫣</h1>
+        <textarea id="customMessage" placeholder="Write your special message here..." rows="4" cols="30"></textarea>
+        <br><br>
+        <button class="yes" onclick="saveMessage()">Send</button>
+        <p id="savedMessage" style="display:none; color: red;">Your message has been saved! ❤️</p>
+    </div>
+
+    <!-- No Selection Pop-up -->
+    <div id="popup" class="popup"></div>
+
+    <!-- Flying Hearts (Only Background) -->
+    <script>
+        function nextLayer(layer) {
+            document.querySelectorAll('.container').forEach(div => div.classList.remove('active'));
+            document.getElementById('layer' + layer).classList.add('active');
+        }
+
+        function showPopup(msg) {
+            let popup = document.getElementById("popup");
+            popup.innerHTML = msg;
+            popup.style.display = "block";
+            setTimeout(() => { popup.style.display = "none"; }, 3000);
+        }
+
+        function createHearts() {
+            setInterval(() => {
+                let heart = document.createElement("div");
+                heart.innerHTML = "❤️";
+                heart.classList.add("heart");
+                heart.style.left = Math.random() * 100 + "vw";
+                heart.style.animationDuration = (Math.random() * 3 + 2) + "s";
+                document.body.appendChild(heart);
+                setTimeout(() => { heart.remove(); }, 5000);
+            }, 300);
+        }
+
+        function saveMessage() {
+            let message = document.getElementById("customMessage").value;
+            if (message.trim() !== "") {
+                localStorage.setItem("savedMessage", message);
+                document.getElementById("savedMessage").style.display = "block";
+            }
+        }
+
+        createHearts();
+    </script>
+
+</body>
+</html>
